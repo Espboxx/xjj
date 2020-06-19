@@ -1,5 +1,6 @@
 package com.jb.xjjreptile.reptile;
 
+import com.jb.xjjreptile.sendMsg.serverFangTang;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,8 +27,8 @@ public class GetPageProcessor implements PageProcessor {
 
     @Override
     public void process(Page page) {
-        String url = page.getUrl().toString();
 
+        String url = page.getUrl().toString();
         String[] split = url.split("/");
         String keyword = split[split.length-1];
 
@@ -43,6 +44,7 @@ public class GetPageProcessor implements PageProcessor {
         }
 
         String[] urls = new String[pageCount];
+        serverFangTang.sendWX("主人你有新的消息","主人：你的“"+keyword+"”开始抓取了,一共检测到有"+count+"条数据,预计"+pageCount+"页");
 
         for (int pageI = 0; pageI < urls.length; pageI++) {//循环当前页数
             urls[pageI] = "https://tuchong.com/rest/tags/"+keyword+"/posts?page="+((int)(pageI+1))+"&count=20&order=weekly";

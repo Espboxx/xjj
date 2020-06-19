@@ -116,7 +116,7 @@ public class ImgService {
         searchSourceBuilder.from(pageNo);
         searchSourceBuilder.size(pageSize);
         //精准匹配
-        searchSourceBuilder.query(QueryBuilders.matchQuery("tags", keyword));
+        searchSourceBuilder.query(QueryBuilders.matchQuery("tags",keyword));
         searchSourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 
         //高亮

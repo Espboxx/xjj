@@ -15,9 +15,7 @@ class XjjReptileApplicationTests {
 
     @Test
     void contextLoads() {
-
-        Spider.create(getPageProcessor).addUrl("https://tuchong.com/tags/"+"可爱").thread(1).run();
-
+//        Spider.create(getPageProcessor).addUrl("https://tuchong.com/tags/"+"可爱").thread(1).run();
     }
 
 }

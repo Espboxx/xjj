@@ -2,6 +2,7 @@ package com.jb.xjjreptile.controller;
 
 import com.jb.xjjreptile.reptile.GetPageProcessor;
 import com.jb.xjjreptile.reptile.UrlProcessor;
+import com.jb.xjjreptile.sendMsg.serverFangTang;
 import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -31,20 +32,23 @@ public class ReptileController {
     GetPageProcessor getPageProcessor;
 
     //请求控制爬虫开始
-
     @RequestMapping("/open/{keyword}")
     public String startReptile(@PathVariable("keyword") String keyword, HttpServletResponse response) throws IOException {
+        //判断是否正在抓取
         Integer integer = keywords.get(keyword);
         if (integer == null || integer == 0){
             keywords.put(keyword,1);
         }else {
             return keyword+"正在抓取";
         }
+
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+
                 Spider.create(getPageProcessor).addUrl("https://tuchong.com/tags/"+keyword).thread(1).run();
                 keywords.put(keyword,0);
+                serverFangTang.sendWX("主人你有新的消息","主人：你的“"+keyword+"”抓取结束了");
             }
         };
         new Thread(runnable).start();
