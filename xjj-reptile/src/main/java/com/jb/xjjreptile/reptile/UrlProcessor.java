@@ -1,6 +1,7 @@
 package com.jb.xjjreptile.reptile;
 
-import org.apache.log4j.PropertyConfigurator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -9,7 +10,12 @@ import us.codecraft.webmagic.selector.JsonPathSelector;
 
 import java.util.ArrayList;
 import java.util.List;
-public class urlProcessor implements PageProcessor {
+@Component
+public class UrlProcessor implements PageProcessor {
+
+    @Autowired
+    ImgProcessor imgProcessor;
+
 
     private static Site site = new Site()
             .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36 Edg/83.0.478.50")
@@ -33,7 +39,8 @@ public class urlProcessor implements PageProcessor {
             urls[i] = urlList.get(i);
         }
 
-        Spider.create(new imgProcessor()).addUrl(urls).thread(1).run();
+        //启动线程爬取详细页面
+        Spider.create(imgProcessor).addUrl(urls).thread(1).run();
     }
 
     @Override

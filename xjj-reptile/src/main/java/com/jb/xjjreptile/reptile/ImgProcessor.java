@@ -1,23 +1,34 @@
 package com.jb.xjjreptile.reptile;
 
+import com.alibaba.fastjson.JSON;
 import com.jb.xjjreptile.config.ElasticSearchClient;
 import com.jb.xjjreptile.pojo.ImgInfo;
+import com.jb.xjjreptile.service.ImgService;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class imgProcessor implements PageProcessor {
+@Component
+public class ImgProcessor implements PageProcessor {
+
+
+    @Autowired
+    ImgService imgService;
+
     private static Site site = new Site()
             .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36 Edg/83.0.478.50")
             .setSleepTime(500)
@@ -39,22 +50,18 @@ public class imgProcessor implements PageProcessor {
         Map<String,Object> map = new HashMap<>();
         //获取ImgURL
         List<String> imgUrls = elementsByClass.getElementsByTag("img").eachAttr("src");
-        //获取imgId
-        List<String> imgId = elementsByClass.getElementsByTag("img").eachAttr("id");
 
 
-        for (int i = 0; i < imgId.size(); i++) {
-            //去除imageId前缀
-            map.put(imgId.get(i).replaceAll("image",""),imgUrls.get(i));
-        }
 
         if (theme.equals("")){
             theme = "无主题";
         }
         try {
-            ElasticSearchClient.addInfo(new ImgInfo(theme,nikeName,tags,map));
-        } catch (Exception e) {
-            System.err.println("连接错误");
+            if (!imgService.addInfo(new ImgInfo(theme,nikeName,tags, JSON.toJSONString(imgUrls)))){
+                     System.err.println("添加失败");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

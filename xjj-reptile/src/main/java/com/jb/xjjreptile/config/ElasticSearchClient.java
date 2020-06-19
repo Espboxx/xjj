@@ -18,15 +18,20 @@ import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.config.ElasticsearchConfigurationSupport;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 
+@Configuration
 public class ElasticSearchClient {
-    private static  RestHighLevelClient esClient = null;
-    static {
+
+    @Bean
+    public RestHighLevelClient restHighLevelClient(){
+        RestHighLevelClient esClient = null;
         //初始化ES操作客户端
         final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY,
@@ -41,21 +46,9 @@ public class ElasticSearchClient {
                     }
                 })/*.setMaxRetryTimeoutMillis(2000)*/
         );
+        return esClient;
     }
 
 
-    public static void  addInfo(ImgInfo imgInfo) throws Exception{
-        IndexRequest indexRequest = new IndexRequest("img_info");
-
-        Map<String,Object> map = new HashMap<>();
-        map.put("theme",imgInfo.getTheme());
-        map.put("nikeName",imgInfo.getNikeName());
-        map.put("tags",imgInfo.getTags());
-        map.put("urls",JSON.toJSONString(imgInfo.getUrls()));
-
-        indexRequest.source(JSON.toJSONString(map),XContentType.JSON);
-        indexRequest.timeout("10s");
-        IndexResponse indexResponse = esClient.index(indexRequest, RequestOptions.DEFAULT);
-    }
 
 }

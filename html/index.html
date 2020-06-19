@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>爬虫首页</title>
+</head>
+<body>
+
+<div id="app">
+    <input type="text" name="" placeholder="搜索" v-model="search">
+    <button @click="btn(1)">搜索</button>
+    <br>
+    <a v-for="u in url">
+        <img height="400px" width="400px" :src="u">
+    </a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            search:"",
+            msgs:"",
+            url:[],
+            page:0
+        },
+        //不知道为什么没有用
+        methods: {
+            replace:function(input) {
+                return input.replace(/"/g,"").replace("[","").replace("]","")
+            },
+
+            btn:function (object) {
+                this.page =  this.page + object;
+                axios.get("http://max.svipss.top:51362/search/"+this.search+"/"+this.page+"/20").then(response => (
+                    this.msgs = response.data,
+                        url(this.msgs)
+            ))
+            },
+            rep:function (keyword) {
+                axios.get("http://max.svipss.top:51362/open/"+keyword).then(response => (
+                    console.log("因为"+keyword+"不存在,后台开始收录,请骚等30秒搜索"),
+                    alert("因为"+keyword+"不存在,后台开始收录,请骚等30秒搜索")
+                ))
+            }
+        },
+        created(){
+            window.onscroll = function(){
+                var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+                var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                var scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
+
+                if(scrollTop+windowHeight==scrollHeight){
+                    //写后台加载数据的函数
+                    console.log("距顶部"+scrollTop+"可视区高度"+windowHeight+"滚动条总高度"+scrollHeight);
+                    vm.btn(+1)
+                }
+            }
+        }
+
+    })
+
+    function url(object) {
+        if (object.length == 0){
+            vm.rep(vm.search)
+
+        }else {
+            for (let i = 0; i < object.length; i++) {
+                stirngR(object[i].urls)
+            }
+        }// vm.url = object.urls;
+    }
+
+    function stirngR(o) {
+        var a =  o.replace("[","").replace("]","").replace(/"/g,"").split(",")
+        for (let string of a) {
+            vm.url.push(string)
+        }
+    }
+</script>
+</body>
+
+</html>

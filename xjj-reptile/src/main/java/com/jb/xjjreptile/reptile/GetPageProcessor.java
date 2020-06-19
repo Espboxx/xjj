@@ -1,15 +1,23 @@
 package com.jb.xjjreptile.reptile;
 
 import org.apache.log4j.PropertyConfigurator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
+import us.codecraft.webmagic.selector.Selectable;
 
-public class getPageProcessor implements PageProcessor {
+@Component
+public class GetPageProcessor implements PageProcessor {
 
-    private static String keyword = "小清新";
+
+
+    @Autowired
+    UrlProcessor urlProcessor;
+
     private static Site site = new Site()
             .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36 Edg/83.0.478.50")
             .setSleepTime(500)
@@ -18,6 +26,12 @@ public class getPageProcessor implements PageProcessor {
 
     @Override
     public void process(Page page) {
+        String url = page.getUrl().toString();
+
+        String[] split = url.split("/");
+        String keyword = split[split.length-1];
+
+
         Html html = page.getHtml();//获取图片总数
         String count = html.xpath("/html/body/main/div[1]/span/text()").toString().replaceAll("组作品","");
         int i = Integer.parseInt(count);//转为Int
@@ -35,16 +49,16 @@ public class getPageProcessor implements PageProcessor {
             System.out.println(urls[pageI]);
         }
 
-        Spider.create(new urlProcessor()).addUrl(urls).thread(1).run();
+        //启动线程爬取页数
+        Spider.create(urlProcessor).addUrl(urls).thread(1).run();
     }
     @Override
     public Site getSite() {
         return site;
     }
     public static void main(String[] args) {
-        PropertyConfigurator.configure("D:\\代码\\xjj-master\\xjj-reptile\\src\\main\\resources\\log4j.properties");
+        PropertyConfigurator.configure("xjj-reptile/src/log4j.properties");
 
-        Spider.create(new getPageProcessor()).addUrl("https://tuchong.com/tags/"+keyword).thread(1).run();
     }
 
 }

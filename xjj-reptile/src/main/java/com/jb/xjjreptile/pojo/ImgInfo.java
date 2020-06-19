@@ -16,5 +16,5 @@ public class ImgInfo {
     private String theme;//    主题
     private String nikeName;// 作者昵称
     private String tags;// 标签
-    private Map<String,Object> urls;
+    private String urls;
 }
