@@ -58,7 +58,7 @@ public class ImgProcessor implements PageProcessor {
         }
         try {
             if (!imgService.addInfo(new ImgInfo(theme,nikeName,tags, JSON.toJSONString(imgUrls)))){
-                     System.err.println("添加失败");
+
             }
         } catch (IOException e) {
             e.printStackTrace();

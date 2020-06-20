@@ -68,7 +68,6 @@ public class ImgService {
         try {
             IndexResponse indexResponse = esClient.index(indexRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {
-            System.err.println("添加失败");
             flag = false;
         }
 
@@ -92,10 +91,8 @@ public class ImgService {
 
         //["https://photo.tuchong.com/16242977/f/38260457.jpg"]
         if (search.getHits().getHits().length>0){
-            System.err.println("图片存在");
             flag = true;
         }else {
-            System.err.println("图片不存在");
             flag = false;
         }
 
