@@ -9,6 +9,7 @@
 
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link href="css/bkwindows.css" rel="stylesheet" type="text/css" />
     <style>
     </style>
 </head>
@@ -34,12 +35,24 @@
     <div class="row" >
         <div class="col-xs-6 col-md-3" v-for="u in url">
             <a  class="thumbnail">
-                <img  :src="u" onclick="toImgHref(this.src)">
+                <img id="myImg" :src="u" onclick="imgOnclick(this)">
             </a>
         </div>
     </div>
 </div>
 
+
+<div id="myModal" class="modal">
+
+    <a onclick="document.getElementById('myModal').style.display='none'">
+
+        <!-- 弹窗内容 -->
+        <img class="modal-content" id="img01">
+
+        <!-- 文本描述 -->
+        <div id="caption"></div>
+    </a>
+</div>
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -47,7 +60,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-
+    //vue
     var vm = new Vue({
         el: "#app",
         data: {
@@ -111,6 +124,29 @@
     function toImgHref(imgUrl) {
 
         window.open(imgUrl,"_blank")
+    }
+
+
+
+    // 获取弹窗
+    var modal = document.getElementById('myModal');
+    // 获取图片插入到弹窗 - 使用 "alt" 属性作为文本部分的内容
+    var img = document.getElementById('myImg');
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+
+
+    function imgOnclick(img) {
+        modal.style.display = "block";
+        modalImg.src = img.src;
+        captionText.innerHTML = img.alt;
+    }
+
+    // 获取 <span> 元素，设置关闭按钮
+    var span = document.getElementsByClassName("close")[0];
+    // 当点击 (x), 关闭弹窗
+    span.onclick = function() {
+        modal.style.display = "none";
     }
 
 

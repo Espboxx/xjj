@@ -1,61 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>搜索框 - div中input自适应</title>
-    <style>
-        *{
-                margin:0;
-                padding:0;
+<style>
+    /* 触发弹窗图片的样式 */
+    #myImg {
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    #myImg:hover {opacity: 0.7;}
+
+    /* 弹窗背景 */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    }
+
+    /* 图片 */
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+    }
+
+    /* 文本内容 */
+    #caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+    }
+
+    /* 添加动画 */
+    .modal-content, #caption {
+        -webkit-animation-name: zoom;
+        -webkit-animation-duration: 0.6s;
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+
+    @-webkit-keyframes zoom {
+        from {-webkit-transform:scale(0)}
+        to {-webkit-transform:scale(1)}
+    }
+
+    @keyframes zoom {
+        from {transform:scale(0)}
+        to {transform:scale(1)}
+    }
+
+    /* 关闭按钮 */
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* 小屏幕中图片宽度为 100% */
+    @media only screen and (max-width: 700px){
+        .modal-content {
+            width: 100%;
         }
-        .search{
-                position: relative;
-                height: 32px;
-                border-bottom:1px solid #d3d3d3;
-                overflow:hidden;
-                background: #fff;
-                text-align: center;
-                overflow:hidden;
-                padding:4px 20px;
-        }
-        .search_bar{
-                height: 32px;
-                margin-right:92px;
-        }
-        .search_bar>input{
-                width:100%;
-                display:inline-block;  
-            *display:inline;  
-            border:1px solid #ccc;
-                border-radius:5px;
-                font-size:14px;
-                height:30px;
-                padding:0 10px 0 32px;
-                background: #f0f0f0 url('/images/webapp/icon.png') no-repeat;
-                background-size:32px 32px;
-        }
-        .search_btn>span{
-                position:absolute;
-                top:4px;
-                right:20px;
-                z-index:9;
-                line-height:32px;
-                color:green;
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
-<!--设置整体布局-->
-<div>
-        <!--input包裹层，利用块元素的特性（width:100%）使其可以完全填充父级div，使用margin-right在右边留出固定宽度-->
-        <div>
-            <!--使input完整填充input包裹层，同时设置其padding值，用以存放搜索小图标+页面优化-->
-            <input type="text" placeholder="搜索"/>
-         </div>
-         <!--btn包裹层，可有可无，使用position将其放置在input右边固定位置，利用z-index使得图层不会被覆盖-->
-         <div>
-             <span>取消</span>
-          </div>
-        </div>
+<!-- 触发弹窗 - 图片改为你的图片地址 -->
+<img id="myImg" src="https://c.runoob.com/wp-content/uploads/2017/01/btotbhpudiagtmvlkyrs.jpg" alt="文本描述信息" width="300" height="200">
+
+<!-- 弹窗 -->
+<div id="myModal" class="modal">
+
+    <a onclick="document.getElementById('myModal').style.display='none'">
+
+        <!-- 弹窗内容 -->
+        <img class="modal-content" id="img01">
+
+        <!-- 文本描述 -->
+        <div id="caption"></div>
+    </a>
+</div>
+<script>
+    // 获取弹窗
+    var modal = document.getElementById('myModal');
+
+    // 获取图片插入到弹窗 - 使用 "alt" 属性作为文本部分的内容
+    var img = document.getElementById('myImg');
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    img.onclick = function(){
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+
+    // 获取 <span> 元素，设置关闭按钮
+    var span = document.getElementsByClassName("close")[0];
+
+    // 当点击 (x), 关闭弹窗
+    div.onclick = function() {
+        modal.style.display = "none";
+    }
+</script>
 </body>
 </html>
