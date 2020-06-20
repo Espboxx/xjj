@@ -10,9 +10,9 @@
     <input type="text" name="" placeholder="搜索" v-model="search">
     <button @click="btn(1)">搜索</button>
     <br>
-    <a v-for="u in url">
+    <span v-for="u in url">
         <img height="400px" width="400px" :src="u">
-    </a>
+    </span>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -35,13 +35,13 @@
 
             btn:function (object) {
                 this.page =  this.page + object;
-                axios.get("http://max.svipss.top:51362/search/"+this.search+"/"+this.page+"/20").then(response => (
+                axios.get("http://47.103.25.206:9999/search/"+this.search+"/"+this.page+"/20").then(response => (
                     this.msgs = response.data,
                         url(this.msgs)
             ))
             },
             rep:function (keyword) {
-                axios.get("http://max.svipss.top:51362/open/"+keyword).then(response => (
+                axios.get("http://47.103.25.206:9999/open/"+keyword).then(response => (
                     console.log("因为"+keyword+"不存在,后台开始收录,请骚等30秒搜索"),
                     alert("因为"+keyword+"不存在,后台开始收录,请骚等30秒搜索")
                 ))
