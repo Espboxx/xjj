@@ -1,4 +1,14 @@
 server:
   port: 9999
-
-
+spring:
+  redis:
+    database: 0 #数据库索引
+    host: 47.103.25.206
+    port: 6379
+    password: 123456
+    jedis:
+      pool:
+        max-active: 8 #最大连接数
+        max-wait: 3 #连接池最大阻塞时间
+        max-idle: 8 #连接池最大空闲数
+        min-idle: 0 #连接池最小空闲连接

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>搜索框 - div中input自适应</title>
+    <style>
+        *{
+                margin:0;
+                padding:0;
+        }
+        .search{
+                position: relative;
+                height: 32px;
+                border-bottom:1px solid #d3d3d3;
+                overflow:hidden;
+                background: #fff;
+                text-align: center;
+                overflow:hidden;
+                padding:4px 20px;
+        }
+        .search_bar{
+                height: 32px;
+                margin-right:92px;
+        }
+        .search_bar>input{
+                width:100%;
+                display:inline-block;  
+            *display:inline;  
+            border:1px solid #ccc;
+                border-radius:5px;
+                font-size:14px;
+                height:30px;
+                padding:0 10px 0 32px;
+                background: #f0f0f0 url('/images/webapp/icon.png') no-repeat;
+                background-size:32px 32px;
+        }
+        .search_btn>span{
+                position:absolute;
+                top:4px;
+                right:20px;
+                z-index:9;
+                line-height:32px;
+                color:green;
+        }
+    </style>
+</head>
+<body>
+<!--设置整体布局-->
+<div>
+        <!--input包裹层，利用块元素的特性（width:100%）使其可以完全填充父级div，使用margin-right在右边留出固定宽度-->
+        <div>
+            <!--使input完整填充input包裹层，同时设置其padding值，用以存放搜索小图标+页面优化-->
+            <input type="text" placeholder="搜索"/>
+         </div>
+         <!--btn包裹层，可有可无，使用position将其放置在input右边固定位置，利用z-index使得图层不会被覆盖-->
+         <div>
+             <span>取消</span>
+          </div>
+        </div>
+</body>
+</html>

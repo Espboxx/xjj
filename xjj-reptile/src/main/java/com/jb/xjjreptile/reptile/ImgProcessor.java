@@ -31,9 +31,10 @@ public class ImgProcessor implements PageProcessor {
 
     private static Site site = new Site()
             .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36 Edg/83.0.478.50")
-            .setSleepTime(500)
+            .setSleepTime(1000)
+            .setCycleRetryTimes(5)
             .setCharset("utf-8")
-            .setTimeOut(1000);
+            .setTimeOut(10000);
 
     @Override
     public void process(Page page) {

@@ -21,7 +21,8 @@ public class GetPageProcessor implements PageProcessor {
 
     private static Site site = new Site()
             .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36 Edg/83.0.478.50")
-            .setSleepTime(500)
+            .setSleepTime(1000)
+            .setCycleRetryTimes(5)
             .setCharset("utf-8")
             .setTimeOut(10000);
 
@@ -48,7 +49,6 @@ public class GetPageProcessor implements PageProcessor {
 
         for (int pageI = 0; pageI < urls.length; pageI++) {//循环当前页数
             urls[pageI] = "https://tuchong.com/rest/tags/"+keyword+"/posts?page="+((int)(pageI+1))+"&count=20&order=weekly";
-            System.out.println(urls[pageI]);
         }
 
         //启动线程爬取页数

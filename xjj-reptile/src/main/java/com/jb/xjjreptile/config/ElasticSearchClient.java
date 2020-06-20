@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+//ES配置类
 
 @Configuration
 public class ElasticSearchClient {
