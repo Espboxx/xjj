@@ -20,3 +20,6 @@ https://tuchong.com/tags/少女
 
 2020年6月20日15:41:20
 开始集成redis
+
+2020年6月20日17:41:03
+添加了redis 将正在抓取关键字加入了redis  用redis实现
