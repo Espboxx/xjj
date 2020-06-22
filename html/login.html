@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<link rel="stylesheet" href="css/login.css">
+		<link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.css" />
+	</head>
+
+	<body>
+
+		<div id="login-box">
+			<h1>Login</h1>
+			<div class="form">
+				<div class="item">
+					<i class="fa fa-user-o" aria-hidden="true"></i>
+					<input type="text" name="username" placeholder="Username" v-model="username">
+				</div>
+				<div class="item"> 
+					<i class="fa fa-key" aria-hidden="true"></i>
+					<input type="password" name="password" placeholder="Password" v-model="password">
+				</div> 
+					<button type="button" @click="login">Login</button>
+
+			</div>
+
+		</div>
+
+
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script>
+
+		var vm = new Vue({
+			el: "#login-box",
+			data:{
+				username: "",
+				password: ""
+			},
+			methods:{
+
+				login:function () {
+					var username = this.username
+					var password = this.password
+
+					$.ajax({
+						url: "http://localhost:9998/login",
+						type: "POST",
+						data: {
+							username: username,
+							password: password
+						},
+						success:function (data) {
+							console.log(data)
+						}
+					})
+
+
+
+				}
+			}
+		})
+
+
+
+	</script>
+
+	</body>
+</html>

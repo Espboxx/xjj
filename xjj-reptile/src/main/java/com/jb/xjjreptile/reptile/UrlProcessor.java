@@ -10,6 +10,7 @@ import us.codecraft.webmagic.selector.JsonPathSelector;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Component
 public class UrlProcessor implements PageProcessor {
 

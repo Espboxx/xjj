@@ -21,57 +21,57 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
-
+//爬虫控制
 @CrossOrigin
 @ResponseBody
 @Controller
 public class ReptileController {
 
 
-    private Map<String,Integer> keywords = new HashMap<>();
+    private Map<String, Integer> keywords = new HashMap<>();
 
     @Autowired
     GetPageProcessor getPageProcessor;
 
     @Autowired
     RedisUtil redisUtil;
+
     //请求控制爬虫开始
     @RequestMapping("/open/{keyword}")
     public String startReptile(@PathVariable("keyword") String keyword, HttpServletResponse response) throws IOException {
 
         //判断是否正在抓取
         String isKey = redisUtil.get(keyword);
-        if (isKey == null || isKey.equals("0")){
-            redisUtil.set(keyword,"1");
-        }else {
-            return keyword+"正在抓取";
+        if (isKey == null || isKey.equals("0")) {
+            redisUtil.set(keyword, "1");
+        } else {
+            return keyword + "正在抓取";
         }
 
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-
-                Spider.create(getPageProcessor).addUrl("https://tuchong.com/tags/"+keyword).thread(1).run();
-                redisUtil.set(keyword,"0");
-                serverFangTang.sendWX("主人你有新的消息","主人：你的“"+keyword+"”抓取结束了");
+                Spider.create(getPageProcessor).addUrl("https://tuchong.com/tags/" + keyword).thread(1).run();
+                redisUtil.set(keyword, "0");
+                serverFangTang.sendWX("主人你有新的消息", "主人：你的“" + keyword + "”抓取结束了");
             }
         };
         new Thread(runnable).start();
 //        response.getWriter().write();
-        return "关键字'"+keyword+"'开始爬取";
+        return "关键字'" + keyword + "'开始爬取";
     }
 
 
     //获取全部关键字
     @RequestMapping("/getAll")
     @ResponseBody
-    public Map<String, Object> getKeyWords(){
+    public Map<String, Object> getKeyWords() {
         Set<String> keys = redisUtil.keys("*");
         List<String> collect = keys.stream().collect(Collectors.toList());
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         for (String s : collect) {
             String s1 = redisUtil.get(s);
-            map.put(s,s1);
+            map.put(s, s1);
         }
         return map;
     }
@@ -80,14 +80,12 @@ public class ReptileController {
     //设置Key值
     @ResponseBody
     @RequestMapping("/stop/{keyword}")
-    public String stopKey(@PathVariable("keyword") String keyword){
+    public String stopKey(@PathVariable("keyword") String keyword) {
 
-        redisUtil.set(keyword,"0");
-        serverFangTang.sendWX("主人你有新的消息","主人:你的"+keyword+"已经没有抓取了哦!");
-        return keyword+"已经设置为0";
+        redisUtil.set(keyword, "0");
+        serverFangTang.sendWX("主人你有新的消息", "主人:你的" + keyword + "已经没有抓取了哦!");
+        return keyword + "已经设置为0";
     }
-
-
 
 
 }

@@ -12,19 +12,19 @@ import java.io.IOException;
 
 public class serverFangTang {
 
-    static CloseableHttpClient  httpClient =  HttpClients.createDefault();
+    static CloseableHttpClient httpClient = HttpClients.createDefault();
 
     static String sckey = "SCU66323T087d0af1e6db837a43c28530aaec61095dcb038d395ee";
 
-    public static void sendWX(String tile,String msg){
+    public static void sendWX(String tile, String msg) {
 
-        HttpGet httpGet = new HttpGet("https://sc.ftqq.com/"+sckey+".send?text="+tile+"&desp="+msg);
-        CloseableHttpResponse response=null;
+        HttpGet httpGet = new HttpGet("https://sc.ftqq.com/" + sckey + ".send?text=" + tile + "&desp=" + msg);
+        CloseableHttpResponse response = null;
         try {
-             response = httpClient.execute(httpGet);
+            response = httpClient.execute(httpGet);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 response.close();
             } catch (IOException e) {
@@ -35,8 +35,8 @@ public class serverFangTang {
 
 
     @Test
-    public void test(){
-        sendWX("主人你有新的消息","主人你的小姐姐搜索完毕");
+    public void test() {
+        sendWX("主人你有新的消息", "主人你的小姐姐搜索完毕");
     }
 
 }

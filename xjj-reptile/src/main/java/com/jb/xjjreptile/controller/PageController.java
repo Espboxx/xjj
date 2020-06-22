@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
+//请求处理
 @CrossOrigin
 @Controller
 public class PageController {
@@ -24,8 +24,8 @@ public class PageController {
     @ResponseBody
     @GetMapping("/search/{keyword}/{pageNo}/{pageSiz}")
     public String search(@PathVariable("keyword") String keyword,
-                                           @PathVariable("pageNo") int pageNo,
-                                           @PathVariable("pageSiz") int pageSize) throws IOException {
+                         @PathVariable("pageNo") int pageNo,
+                         @PathVariable("pageSiz") int pageSize) throws IOException {
 
         System.out.println(keyword);
 

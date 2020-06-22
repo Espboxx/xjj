@@ -14,8 +14,8 @@ public class RedisConfig {
 
     @Bean
     public RedisTemplate<String, Serializable>
-            redisTemplate(LettuceConnectionFactory connectionFactory){
-        RedisTemplate<String,Serializable> redisTemplate = new RedisTemplate<>();
+    redisTemplate(LettuceConnectionFactory connectionFactory) {
+        RedisTemplate<String, Serializable> redisTemplate = new RedisTemplate<>();
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericFastJsonRedisSerializer());
         redisTemplate.setConnectionFactory(connectionFactory);

@@ -12,3 +12,14 @@ spring:
         max-wait: 3 #连接池最大阻塞时间
         max-idle: 8 #连接池最大空闲数
         min-idle: 0 #连接池最小空闲连接
+  application:
+    name: 爬虫
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8888/eureka  #注册到服务中心
+  instance:
+    preferIpAddress: true
+

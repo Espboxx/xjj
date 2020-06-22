@@ -35,17 +35,17 @@ public class ImgService {
 
     @Autowired
     @Qualifier("restHighLevelClient")
-    private RestHighLevelClient esClient ;
+    private RestHighLevelClient esClient;
 
 
-    public  Boolean  addInfo(ImgInfo imgInfo) throws IOException {
+    public Boolean addInfo(ImgInfo imgInfo) throws IOException {
 
 
         //处理Url
         List<String> urlIds = StringUtils.getUrlId(imgInfo.getUrls());
         for (String urlId : urlIds) {
             //先检测是否存在图片ID
-            if (searchImgInfo(urlId)){
+            if (searchImgInfo(urlId)) {
 
                 //返回true就存在就跳过
                 return false;
@@ -53,13 +53,12 @@ public class ImgService {
         }
 
 
-
         boolean flag = true;
         IndexRequest indexRequest = new IndexRequest("img_info");
-        Map<String,Object> map = new HashMap<>();
-        map.put("theme",imgInfo.getTheme());
-        map.put("nikeName",imgInfo.getNikeName());
-        map.put("tags",imgInfo.getTags());
+        Map<String, Object> map = new HashMap<>();
+        map.put("theme", imgInfo.getTheme());
+        map.put("nikeName", imgInfo.getNikeName());
+        map.put("tags", imgInfo.getTags());
         map.put("urls", imgInfo.getUrls());
 
         indexRequest.source(JSON.toJSONString(map), XContentType.JSON);
@@ -90,9 +89,9 @@ public class ImgService {
         SearchResponse search = esClient.search(img_info, RequestOptions.DEFAULT);
 
         //["https://photo.tuchong.com/16242977/f/38260457.jpg"]
-        if (search.getHits().getHits().length>0){
+        if (search.getHits().getHits().length > 0) {
             flag = true;
-        }else {
+        } else {
             flag = false;
         }
 
@@ -101,7 +100,7 @@ public class ImgService {
 
 
     //根据标签查询数据
-    public List<Map<String,Object>> searchPage(String keyword, int pageNo, int pageSize) throws IOException {
+    public List<Map<String, Object>> searchPage(String keyword, int pageNo, int pageSize) throws IOException {
         if (pageNo <= 1) {
             pageNo = 1;
         }
@@ -113,7 +112,7 @@ public class ImgService {
         searchSourceBuilder.from(pageNo);
         searchSourceBuilder.size(pageSize);
         //精准匹配
-        searchSourceBuilder.query(QueryBuilders.matchQuery("tags",keyword));
+        searchSourceBuilder.query(QueryBuilders.matchQuery("tags", keyword));
         searchSourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 
         //高亮
@@ -128,30 +127,27 @@ public class ImgService {
         img_info.source(searchSourceBuilder);
         SearchResponse search = esClient.search(img_info, RequestOptions.DEFAULT);
 
-        ArrayList<Map< String,Object>> list = new ArrayList<>();
-        for (SearchHit documentFields :search.getHits().getHits()) {
+        ArrayList<Map<String, Object>> list = new ArrayList<>();
+        for (SearchHit documentFields : search.getHits().getHits()) {
 
             Map<String, HighlightField> highlightFields = documentFields.getHighlightFields();
 
             HighlightField title = highlightFields.get("tags");
             Map<String, Object> sourceAsMap = documentFields.getSourceAsMap();
 
-            if (title!=null){
+            if (title != null) {
                 Text[] fragments = title.fragments();
                 String n_title = "";
-                for (Text text : fragments){
+                for (Text text : fragments) {
                     n_title += text;
                 }
-                sourceAsMap.put("tags",n_title);
+                sourceAsMap.put("tags", n_title);
             }
 
             list.add(documentFields.getSourceAsMap());
         }
         return list;
     }
-
-
-
 
 
 }

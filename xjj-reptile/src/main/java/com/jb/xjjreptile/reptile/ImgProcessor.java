@@ -48,17 +48,16 @@ public class ImgProcessor implements PageProcessor {
         String tags = html.getDocument().getElementsByClass("post-tags").get(0).text();
         //获取图片url
         Element elementsByClass = html.getDocument().getElementsByClass("post-content").get(0);
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         //获取ImgURL
         List<String> imgUrls = elementsByClass.getElementsByTag("img").eachAttr("src");
 
 
-
-        if (theme.equals("")){
+        if (theme.equals("")) {
             theme = "无主题";
         }
         try {
-            if (!imgService.addInfo(new ImgInfo(theme,nikeName,tags, JSON.toJSONString(imgUrls)))){
+            if (!imgService.addInfo(new ImgInfo(theme, nikeName, tags, JSON.toJSONString(imgUrls)))) {
 
             }
         } catch (IOException e) {

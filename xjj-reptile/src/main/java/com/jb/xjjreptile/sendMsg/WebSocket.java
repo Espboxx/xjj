@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-
 import javax.websocket.OnClose;
 
 import javax.websocket.OnError;
@@ -50,12 +49,10 @@ public class WebSocket {
     }
 
 
-
     @OnClose
     public void onClose() throws IOException {
         subOnlineCount();
     }
-
 
 
     @OnMessage
@@ -63,27 +60,23 @@ public class WebSocket {
     public void onMessage(String message) throws IOException {
 
 
-
         String[] split = message.split("---");
         String qit;//操作标记
         qit = split[0];
 
-        if (qit.equals("login")){
+        if (qit.equals("login")) {
             String user;
             String pass;
             user = split[1].split(":")[1];
             pass = split[2].split(":")[1];
             System.out.println(user);
             System.out.println(pass);
-            sendMessageTo("登录成功",session);
+            sendMessageTo("登录成功", session);
             //login---user:xxxxx---pass:xxxxx
         }
 
 
-
-
     }
-
 
 
     @OnError
@@ -93,7 +86,6 @@ public class WebSocket {
         error.printStackTrace();
 
     }
-
 
 
     public void sendMessageTo(String message, Session session) throws IOException {
@@ -115,7 +107,6 @@ public class WebSocket {
     }
 
 
-
     public void sendMessageAll(String message) throws IOException {
 
         for (WebSocket item : clients.values()) {
@@ -127,13 +118,11 @@ public class WebSocket {
     }
 
 
-
     public static synchronized int getOnlineCount() {
 
         return onlineCount;
 
     }
-
 
 
     public static synchronized void addOnlineCount() {
@@ -143,13 +132,11 @@ public class WebSocket {
     }
 
 
-
     public static synchronized void subOnlineCount() {
 
         WebSocket.onlineCount--;
 
     }
-
 
 
     public static synchronized Map<String, WebSocket> getClients() {

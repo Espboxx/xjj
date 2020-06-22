@@ -6,7 +6,7 @@ import java.util.List;
 public class StringUtils {
 
 
-    public static List<String> getUrlId(String urls){
+    public static List<String> getUrlId(String urls) {
         String[] split = urls.split(",");
         List<String> strings = new ArrayList<>();
         for (String s : split) {

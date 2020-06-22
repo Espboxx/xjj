@@ -15,7 +15,6 @@ import us.codecraft.webmagic.selector.Selectable;
 public class GetPageProcessor implements PageProcessor {
 
 
-
     @Autowired
     UrlProcessor urlProcessor;
 
@@ -31,33 +30,35 @@ public class GetPageProcessor implements PageProcessor {
 
         String url = page.getUrl().toString();
         String[] split = url.split("/");
-        String keyword = split[split.length-1];
+        String keyword = split[split.length - 1];
 
 
         Html html = page.getHtml();//获取图片总数
-        String count = html.xpath("/html/body/main/div[1]/span/text()").toString().replaceAll("组作品","");
+        String count = html.xpath("/html/body/main/div[1]/span/text()").toString().replaceAll("组作品", "");
         int i = Integer.parseInt(count);//转为Int
         int pageCount = 0;
-        if ( i % 20 != 0){
+        if (i % 20 != 0) {
             pageCount = i / 20 + 1;
-        }else {
+        } else {
             pageCount = i / 20;
         }
 
         String[] urls = new String[pageCount];
-        serverFangTang.sendWX("主人你有新的消息","主人：你的“"+keyword+"”开始抓取了,一共检测到有"+count+"条数据,预计"+pageCount+"页");
+        serverFangTang.sendWX("主人你有新的消息", "主人：你的“" + keyword + "”开始抓取了,一共检测到有" + count + "条数据,预计" + pageCount + "页");
 
         for (int pageI = 0; pageI < urls.length; pageI++) {//循环当前页数
-            urls[pageI] = "https://tuchong.com/rest/tags/"+keyword+"/posts?page="+((int)(pageI+1))+"&count=20&order=weekly";
+            urls[pageI] = "https://tuchong.com/rest/tags/" + keyword + "/posts?page=" + ((int) (pageI + 1)) + "&count=20&order=weekly";
         }
 
         //启动线程爬取页数
         Spider.create(urlProcessor).addUrl(urls).thread(1).run();
     }
+
     @Override
     public Site getSite() {
         return site;
     }
+
     public static void main(String[] args) {
         PropertyConfigurator.configure("xjj-reptile/src/log4j.properties");
 

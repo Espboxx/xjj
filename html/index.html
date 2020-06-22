@@ -5,26 +5,29 @@
     <title>爬虫首页</title>
 
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <link href="css/bkwindows.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link href="css/bkwindows.css" rel="stylesheet" type="text/css"/>
     <style>
     </style>
 </head>
 <body>
 
 <div class="container" id="app">
-<!--    导航栏-->
+    <!--    导航栏-->
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
                 <form class="navbar-form navbar-left" role="search">
-                    <div  class="form-group">
-                        <input  type="text" class="form-control" placeholder="搜索" v-model="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="搜索" v-model="search">
                     </div>
                     <button type="button" class="btn btn-default" @click="btn(1)">搜索</button>
+                    <a href="login.html">登录</a>
                 </form>
             </div>
         </div>
@@ -32,9 +35,9 @@
 
     <br>
 
-    <div class="row" >
+    <div class="row">
         <div class="col-xs-6 col-md-3" v-for="u in url">
-            <a  class="thumbnail">
+            <a class="thumbnail">
                 <img id="myImg" :src="u" onclick="imgOnclick(this)">
             </a>
         </div>
@@ -56,7 +59,9 @@
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
@@ -64,37 +69,37 @@
     var vm = new Vue({
         el: "#app",
         data: {
-            search:"",
-            msgs:"",
-            url:[],
-            page:0
+            search: "",
+            msgs: "",
+            url: [],
+            page: 0
         },
         //不知道为什么没有用
         methods: {
-            replace:function(input) {
-                return input.replace(/"/g,"").replace("[","").replace("]","")
+            replace: function (input) {
+                return input.replace(/"/g, "").replace("[", "").replace("]", "")
             },
 
-            btn:function (object) {
-                this.page =  this.page + object;
-                axios.get("http://47.103.25.206:9999/search/"+this.search+"/"+this.page+"/20").then(response => (
+            btn: function (object) {
+                this.page = this.page + object;
+                axios.get("http://47.103.25.206:9999/search/" + this.search + "/" + this.page + "/20").then(response => (
                     this.msgs = response.data,
                         url(this.msgs)
-            ))
+                ))
             },
-            rep:function (keyword) {
-                axios.get("http://47.103.25.206:9999/open/"+keyword).then(response => (
-                    console.log("因为"+keyword+"不存在,后台开始收录,请骚等30秒搜索"),
-                    alert("因为"+keyword+"不存在,后台开始收录,请骚等30秒搜索")
+            rep: function (keyword) {
+                axios.get("http://47.103.25.206:9999/open/" + keyword).then(response => (
+                    console.log("因为" + keyword + "不存在,后台开始收录,请骚等30秒搜索"),
+                        alert("因为" + keyword + "不存在,后台开始收录,请骚等30秒搜索")
                 ))
             }
         },
-        created(){
-            window.onscroll = function(){
-                var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+        created() {
+            window.onscroll = function () {
+                var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
                 var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-                var scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
-                if(scrollTop+windowHeight>=scrollHeight){
+                var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                if (scrollTop + windowHeight >= scrollHeight) {
                     //写后台加载数据的函数
                     vm.btn(+1)
                 }
@@ -104,10 +109,10 @@
     })
 
     function url(object) {
-        if (object.length == 0){
+        if (object.length == 0) {
             vm.rep(vm.search)
 
-        }else {
+        } else {
             for (let i = 0; i < object.length; i++) {
                 stirngR(object[i].urls)
             }
@@ -115,7 +120,7 @@
     }
 
     function stirngR(o) {
-        var a =  o.replace("[","").replace("]","").replace(/"/g,"").split(",")
+        var a = o.replace("[", "").replace("]", "").replace(/"/g, "").split(",")
         for (let string of a) {
             vm.url.push(string)
         }
@@ -123,9 +128,8 @@
 
     function toImgHref(imgUrl) {
 
-        window.open(imgUrl,"_blank")
+        window.open(imgUrl, "_blank")
     }
-
 
 
     // 获取弹窗
@@ -145,7 +149,7 @@
     // 获取 <span> 元素，设置关闭按钮
     var span = document.getElementsByClassName("close")[0];
     // 当点击 (x), 关闭弹窗
-    span.onclick = function() {
+    span.onclick = function () {
         modal.style.display = "none";
     }
 

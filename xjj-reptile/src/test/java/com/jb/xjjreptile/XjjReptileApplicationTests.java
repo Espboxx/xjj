@@ -22,9 +22,9 @@ class XjjReptileApplicationTests {
     @Test
     void contextLoads() {
 
-        Admin admin = new Admin("root","root",3);
-        ValueOperations<String,Admin> operations = redisTemplate.opsForValue();
-        operations.set("fdd2",admin);
+        Admin admin = new Admin("root", "root", 3);
+        ValueOperations<String, Admin> operations = redisTemplate.opsForValue();
+        operations.set("fdd2", admin);
 
         Boolean fdd2 = redisTemplate.hasKey("fdd2");
 
