@@ -1,6 +1,8 @@
 package com.jb.ssologin.service;
 
 import com.jb.ssologin.vo.DbUser;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
@@ -51,5 +53,12 @@ public interface DbUserService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+
+    /**
+     * 返回DbUser对象
+     * @param dbUser
+     * @return
+     */
+    DbUser findUser(DbUser dbUser);
 
 }

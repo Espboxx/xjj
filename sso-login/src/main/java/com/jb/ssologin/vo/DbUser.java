@@ -1,5 +1,10 @@
 package com.jb.ssologin.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Bean;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +13,8 @@ import java.io.Serializable;
  * @author makejava
  * @since 2020-06-22 20:48:27
  */
+@AllArgsConstructor
+@NoArgsConstructor
 public class DbUser implements Serializable {
     private static final long serialVersionUID = 233600705340953470L;
     /**
@@ -27,6 +34,11 @@ public class DbUser implements Serializable {
     */
     private String nikeName;
 
+
+    public DbUser(String userName,String passWord){
+        this.userName = userName;
+        this.passWord = passWord;
+    }
 
     public Integer getId() {
         return id;
@@ -60,4 +72,13 @@ public class DbUser implements Serializable {
         this.nikeName = nikeName;
     }
 
+    @Override
+    public String toString() {
+        return "DbUser{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", passWord='" + passWord + '\'' +
+                ", nikeName='" + nikeName + '\'' +
+                '}';
+    }
 }

@@ -1,7 +1,10 @@
 package com.jb.ssologin.dao;
 
 import com.jb.ssologin.vo.DbUser;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 /**
@@ -10,6 +13,9 @@ import java.util.List;
  * @author makejava
  * @since 2020-06-22 20:48:28
  */
+
+@Component
+@Mapper
 public interface DbUserDao {
 
     /**
@@ -61,5 +67,13 @@ public interface DbUserDao {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
+    /**
+     * 通过账号密码进行查找
+     * @param DbUser对象
+     * @return DbUser对象
+     */
+    DbUser findUser(DbUser dbUser);
+
 
 }

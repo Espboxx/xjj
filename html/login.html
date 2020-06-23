@@ -42,6 +42,19 @@
 			},
 			methods:{
 
+				getCookie: function (NameOfCookie) {
+					if (document.cookie.length > 0) {
+						begin = document.cookie.indexOf(NameOfCookie + "=");
+						if (begin !== -1) {
+							begin += NameOfCookie.length + 1;
+							end = document.cookie.indexOf(";", begin);
+							if (end === -1) end = document.cookie.length;
+							return unescape(document.cookie.substring(begin, end));
+						}
+					}
+					return null;
+				},
+
 				login:function () {
 					var username = this.username
 					var password = this.password
@@ -49,17 +62,26 @@
 					$.ajax({
 						url: "http://localhost:9998/login",
 						type: "POST",
+
 						data: {
 							username: username,
-							password: password
+							password: password,
+							uuid: this.getCookie("uuid"),
 						},
 						success:function (data) {
-							console.log(data)
+							console.log(data);
+							if (data.code == 1){
+								document.cookie = "uuid=" + data.uuid;
+								alert("登录成功")
+							}else {
+								alert("账号或密码错误")
+							}
+
 						}
+
+
+
 					})
-
-
-
 				}
 			}
 		})

@@ -3,6 +3,8 @@ package com.jb.ssologin.service.impl;
 import com.jb.ssologin.vo.DbUser;
 import com.jb.ssologin.dao.DbUserDao;
 import com.jb.ssologin.service.DbUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,9 +16,10 @@ import java.util.List;
  * @author makejava
  * @since 2020-06-22 20:48:28
  */
+@Component
 @Service("dbUserService")
 public class DbUserServiceImpl implements DbUserService {
-    @Resource
+    @Autowired
     private DbUserDao dbUserDao;
 
     /**
@@ -75,5 +78,22 @@ public class DbUserServiceImpl implements DbUserService {
     @Override
     public boolean deleteById(Integer id) {
         return this.dbUserDao.deleteById(id) > 0;
+    }
+
+
+    /**
+     * 通过账号密码查找用户
+     * @param dbUser
+     * @return 是否存在对象
+     */
+    @Override
+    public DbUser findUser(DbUser dbUser) {
+        DbUser user = this.dbUserDao.findUser(dbUser);
+
+        if (user != null){
+            return user;
+        }else {
+            return null;
+        }
     }
 }

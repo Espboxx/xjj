@@ -46,6 +46,14 @@
         </where>
     </select>
 
+<!--    查找用户-->
+    <select id="findUser" resultType="com.jb.ssologin.vo.DbUser" resultMap="DbUserMap">
+        select
+          id, user_name, pass_word, nike_name
+        from pachong.db_user
+        where user_name= #{userName} and pass_word = #{passWord}
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into pachong.db_user(user_name, pass_word, nike_name)
