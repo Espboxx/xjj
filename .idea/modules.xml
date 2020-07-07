@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/eureka/eureka.iml" filepath="$PROJECT_DIR$/eureka/eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/html/html.iml" filepath="$PROJECT_DIR$/html/html.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sso-login/sso-login.iml" filepath="$PROJECT_DIR$/sso-login/sso-login.iml" />
       <module fileurl="file://$PROJECT_DIR$/xjj-reptile/xjj-reptile.iml" filepath="$PROJECT_DIR$/xjj-reptile/xjj-reptile.iml" />
-      <module fileurl="file://$PROJECT_DIR$/小姐姐爬虫.iml" filepath="$PROJECT_DIR$/小姐姐爬虫.iml" />
     </modules>
   </component>
 </project>
